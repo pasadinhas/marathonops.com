@@ -1,0 +1,70 @@
+.glitch {
+  --glitch-colour-one: var(--theme-colour-primary);
+  --glitch-colour-two: var(--theme-colour-secondary);
+  --glitch-flash-distance-x: 4px;
+  --glitch-flash-distance-y: 3px;
+  --glitch-cut-distance: 2px;
+  --glitch-animation-duration-multiplier: 1;
+
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.glitch span {
+  grid-row-start: 1;
+  grid-column-start: 1;
+  --stack-multiplier: calc(var(--index) / var(--stacks));
+  --stack-height: calc(100% / var(--stacks) - 1px);
+  --inverse-index: calc(calc(var(--stacks) - 1) - var(--index));
+  --clip-top: calc(var(--stack-height) * var(--index));
+  --clip-bottom: calc(var(--stack-height) * var(--inverse-index));
+  clip-path: inset(var(--clip-top) 0 var(--clip-bottom) 0);
+
+  height: fit-content;
+
+  animation-name: glitch;
+  animation-duration: calc((500ms + 700ms * var(--stack-multiplier)) * var(--glitch-animation-duration-multiplier));
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-delay: calc(var(--index) * 120ms);
+  animation-direction: reverse;
+}
+
+@keyframes glitch {
+  0% {
+    transform: translateX(var(--glitch-cut-distance));
+    text-shadow: 
+      calc(var(--glitch-flash-distance-x) * -1) var(--glitch-flash-distance-y) 0 var(--glitch-colour-one), 
+      var(--glitch-flash-distance-x) calc(var(--glitch-flash-distance-y) * -1) 0 var(--glitch-colour-two);
+  }
+  2% {
+    text-shadow: 
+      var(--glitch-flash-distance-x) calc(var(--glitch-flash-distance-y) * -1) 0 var(--glitch-colour-one), 
+      calc(var(--glitch-flash-distance-x) * -1) var(--glitch-flash-distance-y) 0 var(--glitch-colour-two);
+  }
+  3% {
+    transform: none;
+  }
+  4% {
+    text-shadow: 
+      calc(var(--glitch-flash-distance-x) * -1) var(--glitch-flash-distance-y) 0 var(--glitch-colour-one), 
+      var(--glitch-flash-distance-x) calc(var(--glitch-flash-distance-y) * -1) 0 var(--glitch-colour-two);
+  }
+  6% {
+    text-shadow: 
+      var(--glitch-flash-distance-x) calc(var(--glitch-flash-distance-y) * -1) 0 var(--glitch-colour-one), 
+      calc(var(--glitch-flash-distance-x) * -1) var(--glitch-flash-distance-y) 0 var(--glitch-colour-two);  }
+  7% {
+    text-shadow: none;
+  }
+  58% {
+    transform: translateX(var(--glitch-cut-distance));
+  }
+  60% {
+    transform: none;
+  }
+  100% {
+    transform: none;
+    text-shadow: none;
+  }
+}
