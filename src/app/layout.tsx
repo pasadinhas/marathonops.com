@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import {
-  Geist,
-  Geist_Mono,
   IBM_Plex_Mono,
   Lekton,
   Kode_Mono,
@@ -39,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className={`${ibmPlexMono.variable} ${lekton.variable} ${kodeMono.variable} antialiased`}>{children}</body>
     </html>
   );
 }

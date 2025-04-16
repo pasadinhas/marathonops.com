@@ -9,14 +9,13 @@ export default function Home() {
 
   useEffect(() => {
     setInterval(() => {
-      const now = new Date();
       const secondsRemaining = Math.max(
         0,
         Math.floor((marathonReleaseTimestamp - Date.now()) / 1000)
       );
       setSecondsRemaining(secondsRemaining.toString(2));
-    })
-  }, []);
+    });
+  }, [marathonReleaseTimestamp]);
 
   return (
     <>
@@ -54,7 +53,7 @@ export default function Home() {
           <div className="feature-description feature-grid-description-1">
             <p>
               Have full access to your vault, check which items are the most
-              valuable and manage your vault's content.
+              valuable and manage your vault&apos;s content.
             </p>
           </div>
           <div className="feature-description feature-grid-description-2">
