@@ -1,12 +1,12 @@
 import "./glitch.css";
 
-type GlitchProperties = {
+type GlitchEffectProperties = {
   className: string;
   stacks: number;
   text: string;
 };
 
-export default function Glitch({ className, stacks, text }: GlitchProperties) {
+export default function GlitchEffect({ className, stacks, text }: GlitchEffectProperties) {
   return (
     <div
       className={`glitch ${className}`}

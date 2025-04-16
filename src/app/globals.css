@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --header-size: 80px;
-  --header-icon-size: 60px;
+  --header-size: 60px;
+  --header-icon-size: 40px;
   --theme-background: #171717;
   --theme-foreground: #ffffff;
   --theme-colour-primary: #c0fe04; /* Marathon Green */
@@ -102,35 +102,4 @@ body {
   --glitch-flash-distance-y: 3px;
   --glitch-cut-distance: 1px;
   --glitch-animation-duration-multiplier: 2;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: max-content 1fr;
-  margin-inline: 10vw;
-}
-
-@media (max-width: 767px) {
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .feature-grid-title-1 {       grid-column: 1; grid-row: 1; }
-  .feature-grid-description-1 { grid-column: 1; grid-row: 2; }
-  .feature-grid-title-2 {       grid-column: 1; grid-row: 3; }
-  .feature-grid-description-2 { grid-column: 1; grid-row: 4; }
-  .feature-grid-title-3 {       grid-column: 1; grid-row: 5; }
-  .feature-grid-description-3 { grid-column: 1; grid-row: 6; }
-}
-
-.features-grid > div {
-  padding: 30px;
-  border: 1px solid #c0fe04;
-}
-
-.feature-title {
-  color: var(--theme-colour-primary);
-  font-size: larger;
-  text-transform: uppercase;
 }
