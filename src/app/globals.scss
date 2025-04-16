@@ -46,7 +46,8 @@ body {
 }
 
 .header {
-  display: flex;
+  display: grid;
+  grid-template-columns: var(--header-size) 15rem 1fr;
   height: var(--header-size);
   width: 100%;
 }
@@ -58,6 +59,25 @@ body {
   padding: calc((var(--header-size) - var(--header-icon-size)) / 2);
 }
 
+.header .header-brand-container {
+  height: var(--header-size);
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid white;
+  font-family: "IBM Plex Mono", monospace;
+  font-style: normal;
+  font-weight: 400;
+  font-size: large;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  padding-inline: 20px;
+}
+
+.header .header-brand-text {
+  transform: scaleY(1.5);
+  transform-origin: center;
+}
+
 .header .header-navigation-container {
   width: 100%;
   display: flex;
@@ -66,22 +86,29 @@ body {
   gap: 20px;
 }
 
-.header .header-navigation-title {
-  font-family: "IBM Plex Mono", monospace;
-  font-style: normal;
-  font-weight: 400;
-  font-size: large;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  transform: scaleY(1.5);
-  display: inline-block;
-  transform-origin: center;
-  padding-inline: 20px;
+@media screen and (max-width: 767px) {
+  .header {
+    grid-template-columns: var(--header-size) 1fr;
+    height: fit-content;
+  }
+
+  .header .header-navigation-container {
+    grid-column: 1 / -1; /* spans full row */
+    grid-row: 2;
+
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 5px;
+    padding-block: 5px;
+  }
+
 }
 
 .nav-item {
   text-transform: uppercase;
+  width: fit-content;
+  padding-inline: 10px;
+  padding-block: 2px;
 }
 
 .nav-item-active,
@@ -154,9 +181,7 @@ body {
 
 @each $rarity in $rarities {
   .vault-item-#{$rarity} {
-    --slot-background-color: var(
-      --theme-colour-rarity-#{$rarity}-background
-    );
+    --slot-background-color: var(--theme-colour-rarity-#{$rarity}-background);
     --slot-foreground-color: var(--theme-colour-rarity-#{$rarity});
   }
 

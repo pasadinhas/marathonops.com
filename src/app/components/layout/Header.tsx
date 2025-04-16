@@ -18,8 +18,11 @@ export default function Header() {
       <div className="header-icon-container">
         <MarathonIcon color="black" />
       </div>
+      <div className="header-brand-container">
+        <span className="header-brand-text">Marathon Ops</span>
+      </div>
+
       <nav className="header-navigation-container">
-        <span className="header-navigation-title">Marathon Ops</span>
         {navLinks.map(({ href, label }) => (
           <Link
             key={href}

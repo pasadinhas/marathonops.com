@@ -1,9 +1,9 @@
 .glitch {
   --glitch-colour-one: var(--theme-colour-primary);
   --glitch-colour-two: var(--theme-colour-secondary);
-  --glitch-flash-distance-x: 4px;
-  --glitch-flash-distance-y: 3px;
-  --glitch-cut-distance: 2px;
+  --glitch-flash-distance-x: .3vw;
+  --glitch-flash-distance-y: .3vh;
+  --glitch-cut-distance: .1vw;
   --glitch-animation-duration-multiplier: 1;
 
   display: grid;
