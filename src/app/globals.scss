@@ -1,12 +1,31 @@
-@import "tailwindcss";
+@use "tailwindcss";
+
+$rarities: standard, enhanced, deluxe, superior, prestige, objective;
 
 :root {
   --header-size: 60px;
   --header-icon-size: 40px;
-  --theme-background: #0a0a0a;
+  --theme-background: rgb(35, 36, 40);
   --theme-foreground: #ffffff;
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
+  --theme-colour-vault-slot-empty: rgb(55, 56, 64);
+  --theme-colour-rarity-standard: rgb(201, 203, 209);
+  --theme-colour-rarity-standard-background: rgb(55, 56, 64);
+  --theme-colour-rarity-enhanced: rgb(112, 242, 146);
+  --theme-colour-rarity-enhanced-background: rgb(57, 73, 73);
+  --theme-colour-rarity-deluxe: rgb(100, 169, 248);
+  --theme-colour-rarity-deluxe-background: rgb(62, 71, 88);
+  --theme-colour-rarity-superior: rgb(179, 63, 245);
+  --theme-colour-rarity-superior-background: rgb(70, 58, 88);
+  --theme-colour-rarity-prestige: rgb(251, 235, 81);
+  --theme-colour-rarity-prestige-background: rgb(
+    108,
+    106,
+    63
+  ); /* this is a guess */
+  --theme-colour-rarity-objective: rgb(234, 71, 61);
+  --theme-colour-rarity-objective-background: rgb(251, 235, 81);
 }
 
 @theme inline {
@@ -112,4 +131,56 @@ body {
   --glitch-flash-distance-y: 3px;
   --glitch-cut-distance: 1px;
   --glitch-animation-duration-multiplier: 2;
+}
+
+.vault-grid {
+  display: grid;
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 8 / 10;
+}
+
+.vault-grid-slot {
+  --slot-background-color: var(--theme-colour-vault-slot-empty);
+  --slot-foreground-color: transparent;
+  background-color: var(--slot-background-color);
+  border: 1px solid transparent;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+@each $rarity in $rarities {
+  .vault-item-#{$rarity} {
+    --slot-background-color: var(
+      --theme-colour-rarity-#{$rarity}-background
+    );
+    --slot-foreground-color: var(--theme-colour-rarity-#{$rarity});
+  }
+
+  .vault-item-#{$rarity}:hover {
+    border: 1px solid var(--slot-foreground-color);
+  }
+}
+
+.vault-grid-slot .header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background-color: var(--slot-foreground-color);
+  color: var(--theme-background);
+}
+
+.vault-grid-slot .quantity {
+  position: absolute;
+  bottom: 0;
+  right: 2px;
+  width: fit-content;
+  font-size: 13px;
+  line-height: 13px;
+  font-weight: 700;
 }

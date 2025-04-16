@@ -4,7 +4,7 @@ import {
   Lekton,
   Kode_Mono,
 } from "next/font/google";
-import "./globals.css";
+import "./globals.scss";
 import Header from "./components/layout/Header";
 
 const ibmPlexMono = IBM_Plex_Mono({
