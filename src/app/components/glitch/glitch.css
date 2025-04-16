@@ -3,7 +3,7 @@
   --glitch-colour-two: var(--theme-colour-secondary);
   --glitch-flash-distance-x: .3vw;
   --glitch-flash-distance-y: .3vh;
-  --glitch-cut-distance: .1vw;
+  --glitch-cut-distance: max(.1vw, 1px);
   --glitch-animation-duration-multiplier: 1;
 
   display: grid;
