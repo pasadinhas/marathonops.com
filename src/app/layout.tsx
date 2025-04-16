@@ -5,6 +5,7 @@ import {
   Kode_Mono,
 } from "next/font/google";
 import "./globals.css";
+import Header from "./components/layout/Header";
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
@@ -37,7 +38,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexMono.variable} ${lekton.variable} ${kodeMono.variable} antialiased`}>{children}</body>
+      <body className={`${ibmPlexMono.variable} ${lekton.variable} ${kodeMono.variable} antialiased`}>
+        <Header />
+        <div className="content">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

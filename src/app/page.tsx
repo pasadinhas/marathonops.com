@@ -2,16 +2,11 @@
 
 import GlitchEffect from "./components/glitch/GlitchEffect";
 import BinaryCountdown from "./components/BinaryCountdown";
-import Header from "./components/layout/Header";
 
 const MARATHON_RELEASE_DATE = new Date("2025-09-23T00:00:00Z")
 
 export default function Home() {
-
   return (
-    <>
-      <Header />
-      <div className="content">
         <div className="hero-banner">
           <BinaryCountdown targetDate={MARATHON_RELEASE_DATE} />
           <GlitchEffect
@@ -20,7 +15,6 @@ export default function Home() {
             className="quote-container"
           />
         </div>
-      </div>
-    </>
+
   );
 }

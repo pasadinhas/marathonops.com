@@ -3,20 +3,19 @@
 :root {
   --header-size: 60px;
   --header-icon-size: 40px;
-  --theme-background: #171717;
+  --theme-background: #0a0a0a;
   --theme-foreground: #ffffff;
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--theme-background);
+  --color-foreground: var(--theme-foreground);
 }
 
-html, body {
+html,
+body {
   min-height: 100vh;
   min-width: 100vw;
 }
@@ -45,11 +44,11 @@ body {
   display: flex;
   align-items: center;
   border-bottom: 1px solid white;
+  gap: 20px;
 }
 
 .header .header-navigation-title {
   font-family: "IBM Plex Mono", monospace;
-  
   font-style: normal;
   font-weight: 400;
   font-size: large;
@@ -62,10 +61,21 @@ body {
   padding-inline: 20px;
 }
 
+.nav-item {
+  text-transform: uppercase;
+}
+
+.nav-item-active,
+.nav-item:hover,
+.nav-item:active {
+  background: var(--theme-colour-primary);
+  color: var(--theme-background);
+}
+
 .content {
   min-height: calc(100vh - var(--header-size));
   display: grid;
-  padding-block: 50px;
+  padding: 2vw;
 }
 
 .hero-banner {
