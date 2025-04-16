@@ -1,8 +1,19 @@
+@import "tailwindcss";
+
 :root {
   --header-size: 80px;
   --header-icon-size: 60px;
+  --theme-background: #171717;
+  --theme-foreground: #ffffff;
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 html, body {
@@ -11,9 +22,9 @@ html, body {
 }
 
 body {
-  background-color: black;
+  background: var(--theme-background);
+  color: var(--theme-foreground);
   font-family: "Lekton", "IBM Plex Mono", monospace;
-  color: white;
 }
 
 .header {
