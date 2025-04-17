@@ -21,7 +21,7 @@ type Tooltip = {
   item: Item | null;
   x: number;
   y: number;
-  visible: boolean;
+  side: "left" | "right";
 };
 
 const GRID_ROWS = 10;
@@ -107,17 +107,21 @@ const SlotGrid = () => {
   const { grid, placements } = generateGrid();
 
   const [tooltip, setTooltip] = useState<Tooltip>({
-    visible: false,
     x: 0,
     y: 0,
     item: null,
+    side: "right",
   });
-  const handleMouseMove = (e: React.MouseEvent, item: Item | null) => {
+
+  const handleMouseEnter = (e: React.MouseEvent, item: Item | null) => {
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const side = rect.left < window.innerWidth / 2 ? "right" : "left";
+
     setTooltip({
-      visible: true,
-      x: e.clientX + 10,
-      y: e.clientY,
+      x: side === "right" ? rect.right + 10 : rect.left - 10,
+      y: rect.top,
       item,
+      side
     });
   };
 
@@ -142,7 +146,7 @@ const SlotGrid = () => {
             gridRow: `${placement.row + 1} / span ${placement.item.rows}`,
             gridColumn: `${placement.col + 1} / span ${placement.item.cols}`,
           }}
-          onMouseMove={(e) => handleMouseMove(e, placement.item)}
+          onMouseEnter={(e) => handleMouseEnter(e, placement.item)}
           onMouseLeave={handleMouseLeave}
         >
           <div className="header">${placement.item.value}</div>
@@ -175,7 +179,8 @@ const SlotGrid = () => {
         <div
           className={`item-tooltip vault-item-${tooltip.item?.rarity}`}
           style={{
-            left: tooltip.x,
+            left: tooltip.side === "right" ? tooltip.x : undefined,
+            right: tooltip.side === "left" ? window.innerWidth - tooltip.x : undefined,
             top: tooltip.y,
           }}
         >
