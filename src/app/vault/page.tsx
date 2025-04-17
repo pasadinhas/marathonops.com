@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { Item } from "./Item";
-import { DefaultTooltipController, handleMouseEnter, handleMouseLeave, ItemTooltip } from "./ItemTooltip";
+import {
+  DefaultTooltipController,
+  handleMouseEnter,
+  handleMouseLeave,
+  ItemTooltip,
+} from "./ItemTooltip";
 import { MockItems } from "./MockItems";
 import { createGrid, Grid, gridFill, gridIsAvailable } from "./grid";
 
@@ -45,7 +50,9 @@ const generateGrid = (items: Item[]) => {
 const SlotGrid = () => {
   const { grid, placements } = generateGrid(MockItems);
 
-  const [tooltipController, setTooltipController] = useState(DefaultTooltipController);
+  const [tooltipController, setTooltipController] = useState(
+    DefaultTooltipController
+  );
 
   return (
     <div
@@ -64,8 +71,10 @@ const SlotGrid = () => {
             gridRow: `${placement.row + 1} / span ${placement.item.rows}`,
             gridColumn: `${placement.col + 1} / span ${placement.item.cols}`,
           }}
-          onMouseEnter={(e) => handleMouseEnter(setTooltipController, e, placement.item)}
-          onMouseLeave={(e) => handleMouseLeave(setTooltipController, e, placement.item)}
+          onMouseEnter={(e) =>
+            handleMouseEnter(setTooltipController, e, placement.item)
+          }
+          onMouseLeave={() => handleMouseLeave(setTooltipController)}
         >
           <div className="header">${placement.item.value}</div>
           Item {placement.item.id}
@@ -82,11 +91,7 @@ const SlotGrid = () => {
 
         const occupied = grid[row][col];
         return !occupied ? (
-          <div
-            key={`empty-${i}`}
-            className="vault-grid-slot"
-           
-          />
+          <div key={`empty-${i}`} className="vault-grid-slot" />
         ) : null;
       })}
 

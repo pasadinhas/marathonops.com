@@ -26,11 +26,7 @@ export function handleMouseEnter(
   });
 }
 
-export function handleMouseLeave(
-  updateTooltipController: Updater,
-  e: React.MouseEvent,
-  item: Item | null
-) {
+export function handleMouseLeave(updateTooltipController: Updater) {
   updateTooltipController((t) => ({ ...t, item: null }));
 }
 
