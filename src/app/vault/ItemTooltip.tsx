@@ -12,11 +12,7 @@ export type TooltipController = {
 
 type Updater = Dispatch<SetStateAction<TooltipController>>;
 
-export function handleMouseEnter(
-  updateTooltipController: Updater,
-  e: React.MouseEvent,
-  item: Item | null
-) {
+export function handleMouseEnter(updateTooltipController: Updater, e: React.MouseEvent, item: Item | null) {
   const rect = (e.target as HTMLElement).getBoundingClientRect();
   const side = rect.left < window.innerWidth / 2 ? "right" : "left";
 
@@ -49,24 +45,15 @@ export function ItemTooltip({ controller }: { controller: TooltipController }) {
       className={`item-tooltip vault-item-${controller.item?.rarity}`}
       style={{
         left: controller.side === "right" ? controller.x : undefined,
-        right:
-          controller.side === "left"
-            ? window.innerWidth - controller.x
-            : undefined,
+        right: controller.side === "left" ? window.innerWidth - controller.x : undefined,
         top: controller.y,
       }}
     >
       <div className="item-tooltip-header">
-        <div className="item-tooltip-header-name">
-          Distance Runner v{controller.item?.id}
-        </div>
+        <div className="item-tooltip-header-name">{controller.item?.name}</div>
         <div className="item-tooltip-header-badges">
-          <div className="item-tooltip-badge item-tooltip-badge-rarity">
-            {controller.item?.rarity}
-          </div>
-          <div className="item-tooltip-badge item-tooltip-badge-implant">
-            Implant
-          </div>
+          <div className="item-tooltip-badge item-tooltip-badge-rarity">{controller.item?.rarity}</div>
+          <div className="item-tooltip-badge item-tooltip-badge-type">{controller.item?.type}</div>
         </div>
       </div>
       <div className="item-tooltip-content">
@@ -85,9 +72,8 @@ function DummyDetails() {
   return (
     <>
       <span>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia voluptates
-        et, qui nesciunt provident quas temporibus facere voluptate reiciendis
-        omnis repellat cum quos quam repudiandae accusantium recusandae hic
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia voluptates et, qui nesciunt provident quas
+        temporibus facere voluptate reiciendis omnis repellat cum quos quam repudiandae accusantium recusandae hic
         incidunt repellendus.
       </span>
       <hr />
@@ -150,12 +136,14 @@ function ModifierDetail({ modifier }: { modifier: Modifier }) {
     );
   }
 
+  if (modifier.type === "text") {
+    return <KeywordHighlighter text={modifier.description} />;
+  }
+
   if (modifier.type === "increase" || modifier.type === "decrease") {
     return (
       <div>
-        <span className={`item-details-modifier-${modifier.type}`}>
-          {modifier.type === "increase" ? "▲" : "▼"}
-        </span>
+        <span className={`item-details-modifier-${modifier.type}`}>{modifier.type === "increase" ? "▲" : "▼"}</span>
         <KeywordHighlighter text={modifier.description} />
       </div>
     );
@@ -192,9 +180,7 @@ function StatDetail({ stat }: { stat: Stat }) {
           {
             "--progress-bar-base-fill": `${stat.base}%`,
             "--progress-bar-change-fill": `${Math.abs(stat.change)}%`,
-            "--progress-bar-change-left": `${
-              stat.change > 0 ? stat.base : stat.base + stat.change
-            }%`,
+            "--progress-bar-change-left": `${stat.change > 0 ? stat.base : stat.base + stat.change}%`,
           } as React.CSSProperties
         }
       ></div>

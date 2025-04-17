@@ -1,4 +1,4 @@
-const KEYWORDS = ["exfil"];
+const KEYWORDS = ["exfil", "Immobilize", "Overheat", "Toxin", "Hardware"];
 const KEYWORD_REGEX = new RegExp(`(${KEYWORDS.join("|")})`, "gi");
 
 export default function KeywordHighlighter({ text }: { text: string }) {

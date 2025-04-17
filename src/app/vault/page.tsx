@@ -37,7 +37,15 @@ const generateGrid = (items: Item[]) => {
 
   const placements: Placement[] = [];
 
-  for (const item of items) {
+  const sortedItems = items.sort((a, b) => {
+    const areaA = a.rows * a.cols;
+    const areaB = b.rows * b.cols;
+  
+    if (areaA !== areaB) return areaB - areaA;
+    return b.rows - a.rows;
+  });
+
+  for (const item of sortedItems) {
     const placement = placeItem(grid, item);
     if (placement) {
       placements.push(placement);

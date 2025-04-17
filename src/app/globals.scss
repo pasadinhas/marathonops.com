@@ -238,8 +238,7 @@ hr {
   color: white;
   white-space: nowrap;
   z-index: 1000;
-  min-width: 300px;
-  max-width: 400px;
+  width: 400px;
 
   border-top: 10px solid var(--tooltip-foreground-color);
   border-left: 10px solid var(--tooltip-foreground-color);
@@ -276,9 +275,10 @@ hr {
   line-height: 150%;
 }
 
-.item-tooltip-badge-implant {
+.item-tooltip-badge-type {
   color: var(--theme-foreground);
   background-color: var(--theme-background);
+  text-transform: capitalize;
 }
 
 .item-tooltip-content {
