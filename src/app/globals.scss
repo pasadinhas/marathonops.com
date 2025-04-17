@@ -196,6 +196,10 @@ hr {
   font-weight: bold;
 }
 
+.vault-grid-slot:hover,.vault-grid-slot-selected {
+  border: 1px solid var(--slot-foreground-color);
+}
+
 @each $rarity in $rarities {
   .vault-item-#{$rarity} {
     --slot-background-color: var(--theme-colour-rarity-#{$rarity}-background);
@@ -204,10 +208,6 @@ hr {
       --theme-colour-rarity-#{$rarity}-background
     );
     --tooltip-foreground-color: var(--theme-colour-rarity-#{$rarity});
-  }
-
-  .vault-item-#{$rarity}:hover {
-    border: 1px solid var(--slot-foreground-color);
   }
 }
 
@@ -232,8 +232,7 @@ hr {
 }
 
 .item-tooltip {
-  position: fixed;
-  pointer-events: none;
+  position: absolute;
   background: var(--theme-background);
   color: white;
   white-space: nowrap;

@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { Item } from "./Item";
-import {
-  DefaultTooltipController,
-  handleMouseEnter,
-  handleMouseLeave,
-  ItemTooltip,
-} from "./ItemTooltip";
+import { DefaultTooltipController, handleClick, handleMouseEnter, handleMouseLeave, ItemTooltip } from "./ItemTooltip";
 import { MockItems } from "./MockItems";
 import { createGrid, Grid, gridFill, gridIsAvailable } from "./grid";
+import clsx from "clsx";
 
 type Placement = {
   item: Item;
@@ -40,7 +36,7 @@ const generateGrid = (items: Item[]) => {
   const sortedItems = items.sort((a, b) => {
     const areaA = a.rows * a.cols;
     const areaB = b.rows * b.cols;
-  
+
     if (areaA !== areaB) return areaB - areaA;
     return b.rows - a.rows;
   });
@@ -58,9 +54,7 @@ const generateGrid = (items: Item[]) => {
 const SlotGrid = () => {
   const { grid, placements } = generateGrid(MockItems);
 
-  const [tooltipController, setTooltipController] = useState(
-    DefaultTooltipController
-  );
+  const [tooltipController, setTooltipController] = useState(DefaultTooltipController);
 
   return (
     <div
@@ -74,21 +68,23 @@ const SlotGrid = () => {
       {placements.map((placement) => (
         <div
           key={placement.item.id}
-          className={`vault-grid-slot vault-item-${placement.item.rarity}`}
+          className={clsx(
+            "vault-grid-slot",
+            "vault-grid-slot-used",
+            `vault-item-${placement.item.rarity}`,
+            placement.item === tooltipController.item && "vault-grid-slot-selected"
+          )}
           style={{
             gridRow: `${placement.row + 1} / span ${placement.item.rows}`,
             gridColumn: `${placement.col + 1} / span ${placement.item.cols}`,
           }}
-          onMouseEnter={(e) =>
-            handleMouseEnter(setTooltipController, e, placement.item)
-          }
-          onMouseLeave={() => handleMouseLeave(setTooltipController)}
+          onMouseEnter={(e) => handleMouseEnter(tooltipController, setTooltipController, e, placement.item)}
+          onMouseLeave={() => handleMouseLeave(tooltipController, setTooltipController)}
+          onClick={(e) => handleClick(setTooltipController, e, placement.item)}
         >
           <div className="header">${placement.item.value}</div>
           Item {placement.item.id}
-          {placement.item.quantity > 1 && (
-            <div className="quantity">x{placement.item.quantity}</div>
-          )}
+          {placement.item.quantity > 1 && <div className="quantity">x{placement.item.quantity}</div>}
         </div>
       ))}
 
@@ -98,9 +94,7 @@ const SlotGrid = () => {
         const col = i % GRID_COLS;
 
         const occupied = grid[row][col];
-        return !occupied ? (
-          <div key={`empty-${i}`} className="vault-grid-slot" />
-        ) : null;
+        return !occupied ? <div key={`empty-${i}`} className="vault-grid-slot" /> : null;
       })}
 
       <ItemTooltip controller={tooltipController} />

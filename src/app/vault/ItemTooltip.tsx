@@ -8,24 +8,59 @@ export type TooltipController = {
   x: number;
   y: number;
   side: "left" | "right";
+  locked: boolean;
 };
 
 type Updater = Dispatch<SetStateAction<TooltipController>>;
 
-export function handleMouseEnter(updateTooltipController: Updater, e: React.MouseEvent, item: Item | null) {
+function createTooltipController(e: React.MouseEvent, item: Item | null): TooltipController {
   const rect = (e.target as HTMLElement).getBoundingClientRect();
   const side = rect.left < window.innerWidth / 2 ? "right" : "left";
 
-  updateTooltipController({
+  return {
     x: side === "right" ? rect.right + 10 : rect.left - 10,
     y: rect.top,
     item,
     side,
-  });
+    locked: false,
+  };
 }
 
-export function handleMouseLeave(updateTooltipController: Updater) {
+export function handleMouseEnter(
+  controller: TooltipController,
+  updateTooltipController: Updater,
+  e: React.MouseEvent,
+  item: Item | null
+) {
+  if (controller.locked) return;
+
+  updateTooltipController(createTooltipController(e, item));
+}
+
+export function handleMouseLeave(controller: TooltipController, updateTooltipController: Updater) {
+  if (controller.locked) return;
   updateTooltipController((t) => ({ ...t, item: null }));
+}
+
+export function handleClick(updateTooltipController: Updater, e: React.MouseEvent, item: Item) {
+  updateTooltipController(() => {
+    const handleDocumentClick = (e: MouseEvent) => {
+      const element = e.target as HTMLElement;
+      if (element.closest(".vault-grid-slot-used") || element.closest(".item-tooltip")) {
+        return;
+      }
+      
+      updateTooltipController((t) =>
+        t.locked ? { ...t, locked: false, item: null } : t
+      );
+      
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  
+    document.addEventListener("click", handleDocumentClick);
+
+    return { ...createTooltipController(e, item), locked: true }
+  });
 }
 
 export const DefaultTooltipController: TooltipController = {
@@ -33,6 +68,7 @@ export const DefaultTooltipController: TooltipController = {
   y: 0,
   item: null,
   side: "right",
+  locked: false,
 };
 
 export function ItemTooltip({ controller }: { controller: TooltipController }) {
