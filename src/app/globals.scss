@@ -9,7 +9,7 @@ $rarities: standard, enhanced, deluxe, superior, prestige, objective;
   --theme-font-light: white;
   --theme-background: rgb(35, 36, 40);
   --theme-foreground: rgb(234, 235, 237);
-  --theme-seperator:  rgba(234, 235, 237, 0.1);
+  --theme-separator:  rgba(234, 235, 237, 0.1);
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
   --theme-colour-vault-slot-empty: rgb(55, 56, 64);
@@ -46,6 +46,10 @@ body {
   background: var(--theme-background);
   color: var(--theme-foreground);
   font-family: "Lekton", "IBM Plex Mono", monospace;
+}
+
+hr {
+  border-color: var(--theme-separator);
 }
 
 .header {
@@ -268,8 +272,12 @@ body {
 .item-tooltip-content {
   width: 100%;
   background: var(--theme-background);
-  border-right: 1px solid var(--theme-seperator);
-  border-bottom: 1px solid var(--theme-seperator);
+  border-right: 1px solid var(--theme-separator);
+  border-bottom: 1px solid var(--theme-separator);
   padding: 10px;
   white-space: normal;
+}
+
+.item-tooltip-content hr {
+  margin-block: 10px;
 }
