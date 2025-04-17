@@ -9,9 +9,10 @@ $rarities: standard, enhanced, deluxe, superior, prestige, objective;
   --theme-font-light: white;
   --theme-background: rgb(35, 36, 40);
   --theme-foreground: rgb(234, 235, 237);
-  --theme-separator:  rgba(234, 235, 237, 0.1);
+  --theme-separator: rgba(234, 235, 237, 0.1);
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
+  --theme-colour-keyword: rgb(118, 148, 196);
   --theme-colour-vault-slot-empty: rgb(55, 56, 64);
   --theme-colour-rarity-standard: rgb(201, 203, 209);
   --theme-colour-rarity-standard-background: rgb(55, 56, 64);
@@ -29,6 +30,12 @@ $rarities: standard, enhanced, deluxe, superior, prestige, objective;
   ); /* this is a guess */
   --theme-colour-rarity-objective: rgb(234, 71, 61);
   --theme-colour-rarity-objective-background: rgb(251, 235, 81);
+  --theme-colour-stat-increase: var(--theme-colour-primary);
+  --theme-colour-stat-decrease: rgb(220,65,57);
+  --theme-colour-stat-increase-: var(--theme-colour-primary);
+  --theme-colour-stat-decrease: rgb(220,65,57);
+  --theme-colour-stat-arrow-increase: rgb(113, 159, 126);
+  --theme-colour-stat-arrow-decrease: rgb(157, 110, 110);
 }
 
 @theme inline {
@@ -50,6 +57,10 @@ body {
 
 hr {
   border-color: var(--theme-separator);
+}
+
+.highlight-keyword {
+  color: var(--theme-colour-keyword);
 }
 
 .header {
@@ -228,7 +239,7 @@ hr {
   white-space: nowrap;
   z-index: 1000;
   min-width: 300px;
-  max-width: 500px;
+  max-width: 400px;
 
   border-top: 10px solid var(--tooltip-foreground-color);
   border-left: 10px solid var(--tooltip-foreground-color);
@@ -246,7 +257,8 @@ hr {
   font-family: "Lexend Zetta", monospace;
   padding-right: 2em;
   letter-spacing: -3px;
-  font-size: x-large;
+  font-size: larger;
+  margin-bottom: 5px;
 }
 
 .item-tooltip-header-badges {
@@ -274,10 +286,112 @@ hr {
   background: var(--theme-background);
   border-right: 1px solid var(--theme-separator);
   border-bottom: 1px solid var(--theme-separator);
-  padding: 10px;
+  padding: 15px;
   white-space: normal;
 }
 
 .item-tooltip-content hr {
-  margin-block: 10px;
+  margin-block: 15px;
+}
+
+.item-tooltip-credits {
+  display: grid;
+  grid-template-columns: 60px 1fr 5em;
+  align-items: center;
+  font-weight: 700;
+}
+
+.item-tooltip-credits .credits-icon {
+  height: 40px;
+  width: 40px;
+  background-color: var(--theme-foreground);
+}
+
+.item-tooltip-credits .credits-value {
+  text-align: right;
+}
+
+.item-details-modifiers {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.item-trait-name {
+  color: var(--tooltip-foreground-color);
+}
+
+.item-modifier-name {
+  font-weight: 700;
+}
+
+.item-details-modifier-increase {
+  color: var(--theme-colour-stat-arrow-increase);
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: larger;
+}
+
+.item-details-modifier-decrease {
+  color: var(--theme-colour-stat-arrow-decrease);
+  margin-right: 10px;
+  font-weight: 700;
+  font-size: larger;
+}
+
+.item-details-stats {
+  
+}
+
+.item-details-stat-increase {
+  --stat-color: var(--theme-colour-stat-increase);
+}
+
+.item-details-stat-decrease {
+  --stat-color: var(--theme-colour-stat-decrease);
+}
+
+.item-details-stat-values-container {
+  display: flex;
+  width: 100%;
+  font-weight: 700;
+  justify-content: space-between;
+}
+
+.item-details-stat-change-value {
+  color: var(--stat-color);
+  margin-left: 10px;
+}
+
+.item-details-stat-value {
+  text-align: right;
+  color: var(--stat-color);
+}
+
+.item-details-stat-bar {
+  --progress-bar-base-fill: 0,
+  --progress-bar-change-fill: 0,
+
+  width: 100%;
+  height: 10px;
+  background-color: var(--theme-separator);
+  position: relative;;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: var(--progress-bar-base-fill);
+    height: 100%;
+    left: 0;
+    background-color: var(--theme-foreground);
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: var(--progress-bar-change-fill);
+    height: 100%;
+    left: var(--progress-bar-change-left);
+    background-color: var(--stat-color);
+  }
 }

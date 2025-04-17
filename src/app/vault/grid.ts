@@ -1,4 +1,3 @@
-
 export type Grid = boolean[][];
 
 export function createGrid(rows: number, cols: number) {
@@ -22,7 +21,7 @@ export function gridIsAvailable(
     }
   }
   return true;
-};
+}
 
 export function gridFill(
   grid: Grid,
@@ -36,4 +35,4 @@ export function gridFill(
       grid[r + dr][c + dc] = true;
     }
   }
-};
+}
