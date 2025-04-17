@@ -90,13 +90,13 @@ function ItemDetails({ details }: { details: Detail[] }) {
 
   return details.map((detail) => (
     <>
-      <Detail detail={detail} />
+      <DetailBlock detail={detail} />
       <hr />
     </>
   ));
 }
 
-function Detail({ detail }: { detail: Detail }) {
+function DetailBlock({ detail }: { detail: Detail }) {
   if (detail.type === "modifiers" && detail.modifiers) {
     return (
       <div className="item-details-modifiers">

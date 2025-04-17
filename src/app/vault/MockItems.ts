@@ -3,7 +3,7 @@ import { Detail, Item, Modifier, Stat } from "./Item";
 const White = "standard";
 const Green = "enhanced";
 const Blue = "deluxe";
-const Purple = "superior";
+//const Purple = "superior";
 const Yellow = "prestige";
 
 function modifiers(...modifiers: Modifier[]): Detail {
