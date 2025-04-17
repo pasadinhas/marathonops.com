@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 type Item = {
   id: number;
   rarity: string;
@@ -11,6 +15,13 @@ type Placement = {
   item: Item;
   row: number;
   col: number;
+};
+
+type Tooltip = {
+  item: Item | null;
+  x: number;
+  y: number;
+  visible: boolean;
 };
 
 const GRID_ROWS = 10;
@@ -31,7 +42,13 @@ const items: Item[] = [
   { id: 11, rows: 1, cols: 1, rarity: "enhanced", value: 5, quantity: 8 },
 ];
 
-const checkIfItemFits = (grid: boolean[][], r: number, c: number, rows: number, cols: number) => {
+const checkIfItemFits = (
+  grid: boolean[][],
+  r: number,
+  c: number,
+  rows: number,
+  cols: number
+) => {
   for (let dr = 0; dr < rows; dr++) {
     for (let dc = 0; dc < cols; dc++) {
       if (grid[r + dr][c + dc]) {
@@ -40,15 +57,21 @@ const checkIfItemFits = (grid: boolean[][], r: number, c: number, rows: number, 
     }
   }
   return true;
-}
+};
 
-const updateGrid = (grid: boolean[][], r: number, c: number, rows: number, cols: number) => {
+const updateGrid = (
+  grid: boolean[][],
+  r: number,
+  c: number,
+  rows: number,
+  cols: number
+) => {
   for (let dr = 0; dr < rows; dr++) {
     for (let dc = 0; dc < cols; dc++) {
       grid[r + dr][c + dc] = true;
     }
   }
-}
+};
 
 const placeItem = (grid: boolean[][], item: Item): Placement | null => {
   for (let r = 0; r <= GRID_ROWS - item.rows; r++) {
@@ -60,7 +83,7 @@ const placeItem = (grid: boolean[][], item: Item): Placement | null => {
     }
   }
   return null;
-}
+};
 
 const generateGrid = () => {
   // Matrix of cells take are already taken.
@@ -71,7 +94,7 @@ const generateGrid = () => {
   const placements: Placement[] = [];
 
   for (const item of items) {
-    const placement = placeItem(grid, item)
+    const placement = placeItem(grid, item);
     if (placement) {
       placements.push(placement);
     }
@@ -82,6 +105,25 @@ const generateGrid = () => {
 
 const SlotGrid = () => {
   const { grid, placements } = generateGrid();
+
+  const [tooltip, setTooltip] = useState<Tooltip>({
+    visible: false,
+    x: 0,
+    y: 0,
+    item: null,
+  });
+  const handleMouseMove = (e: React.MouseEvent, item: Item | null) => {
+    setTooltip({
+      visible: true,
+      x: e.clientX + 10,
+      y: e.clientY,
+      item,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTooltip((t) => ({ ...t, item: null, visible: false }));
+  };
 
   return (
     <div
@@ -100,10 +142,14 @@ const SlotGrid = () => {
             gridRow: `${placement.row + 1} / span ${placement.item.rows}`,
             gridColumn: `${placement.col + 1} / span ${placement.item.cols}`,
           }}
+          onMouseMove={(e) => handleMouseMove(e, placement.item)}
+          onMouseLeave={handleMouseLeave}
         >
           <div className="header">${placement.item.value}</div>
           Item {placement.item.id}
-          {placement.item.quantity > 1 && <div className="quantity">x{placement.item.quantity}</div>}
+          {placement.item.quantity > 1 && (
+            <div className="quantity">x{placement.item.quantity}</div>
+          )}
         </div>
       ))}
 
@@ -112,7 +158,7 @@ const SlotGrid = () => {
         const row = Math.floor(i / GRID_COLS);
         const col = i % GRID_COLS;
 
-        const occupied = grid[row][col]
+        const occupied = grid[row][col];
         return !occupied ? (
           <div
             key={`empty-${i}`}
@@ -124,10 +170,42 @@ const SlotGrid = () => {
           />
         ) : null;
       })}
+
+      {tooltip.item && (
+        <div
+          className={`item-tooltip vault-item-${tooltip.item?.rarity}`}
+          style={{
+            left: tooltip.x,
+            top: tooltip.y,
+          }}
+        >
+          <div className="item-tooltip-header">
+            <div className="item-tooltip-header-name">
+              Distance Runner v{tooltip.item?.id}
+            </div>
+            <div className="item-tooltip-header-badges">
+              <div className="item-tooltip-badge item-tooltip-badge-rarity">
+                {tooltip.item?.rarity}
+              </div>
+              <div className="item-tooltip-badge item-tooltip-badge-implant">
+                Implant
+              </div>
+            </div>
+          </div>
+          <div className="item-tooltip-content">
+            <span>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              voluptates et, qui nesciunt provident quas temporibus facere
+              voluptate reiciendis omnis repellat cum quos quam repudiandae
+              accusantium recusandae hic incidunt repellendus.
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default function Vault() {
-  return <SlotGrid />
+  return <SlotGrid />;
 }

@@ -5,8 +5,11 @@ $rarities: standard, enhanced, deluxe, superior, prestige, objective;
 :root {
   --header-size: 60px;
   --header-icon-size: 40px;
+  --theme-font-dark: black;
+  --theme-font-light: white;
   --theme-background: rgb(35, 36, 40);
-  --theme-foreground: #ffffff;
+  --theme-foreground: rgb(234, 235, 237);
+  --theme-seperator:  rgba(234, 235, 237, 0.1);
   --theme-colour-primary: #c0fe04; /* Marathon Green */
   --theme-colour-secondary: rgb(237, 106, 136); /* Marathon Pink Cat */
   --theme-colour-vault-slot-empty: rgb(55, 56, 64);
@@ -101,7 +104,6 @@ body {
     gap: 5px;
     padding-block: 5px;
   }
-
 }
 
 .nav-item {
@@ -183,6 +185,10 @@ body {
   .vault-item-#{$rarity} {
     --slot-background-color: var(--theme-colour-rarity-#{$rarity}-background);
     --slot-foreground-color: var(--theme-colour-rarity-#{$rarity});
+    --tooltip-background-color: var(
+      --theme-colour-rarity-#{$rarity}-background
+    );
+    --tooltip-foreground-color: var(--theme-colour-rarity-#{$rarity});
   }
 
   .vault-item-#{$rarity}:hover {
@@ -208,4 +214,62 @@ body {
   font-size: 13px;
   line-height: 13px;
   font-weight: 700;
+}
+
+.item-tooltip {
+  position: fixed;
+  pointer-events: none;
+  background: var(--theme-background);
+  color: white;
+  white-space: nowrap;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 500px;
+
+  border-top: 10px solid var(--tooltip-foreground-color);
+  border-left: 10px solid var(--tooltip-foreground-color);
+}
+
+.item-tooltip-header {
+  width: 100%;
+  background-color: var(--tooltip-foreground-color);
+  color: var(--theme-font-dark);
+}
+
+.item-tooltip-header-name {
+  text-transform: uppercase;
+  font-weight: 1000;
+  font-family: "Lexend Zetta", monospace;
+  padding-right: 2em;
+  letter-spacing: -3px;
+  font-size: x-large;
+}
+
+.item-tooltip-header-badges {
+  display: flex;
+  gap: 5px;
+  padding-bottom: 10px;
+}
+
+.item-tooltip-badge {
+  border: 1px solid var(--theme-background);
+  border-radius: 20px;
+  text-transform: capitalize;
+  font-weight: 700;
+  padding-inline: 1em;
+  line-height: 150%;
+}
+
+.item-tooltip-badge-implant {
+  color: var(--theme-foreground);
+  background-color: var(--theme-background);
+}
+
+.item-tooltip-content {
+  width: 100%;
+  background: var(--theme-background);
+  border-right: 1px solid var(--theme-seperator);
+  border-bottom: 1px solid var(--theme-seperator);
+  padding: 10px;
+  white-space: normal;
 }

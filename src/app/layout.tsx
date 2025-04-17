@@ -3,6 +3,7 @@ import {
   IBM_Plex_Mono,
   Lekton,
   Kode_Mono,
+  Lexend_Zetta,
 } from "next/font/google";
 import "./globals.scss";
 import Header from "./components/layout/Header";
@@ -25,6 +26,12 @@ const kodeMono = Kode_Mono({
   weight: ["400", "700"],
 });
 
+const lexendZetta = Lexend_Zetta({
+  variable: "--font-goldman",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Marathon Ops",
   description:
@@ -38,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexMono.variable} ${lekton.variable} ${kodeMono.variable} antialiased`}>
+      <body className={`${ibmPlexMono.variable} ${lekton.variable} ${kodeMono.variable} ${lexendZetta.variable} antialiased`}>
         <Header />
         <div className="content">
           {children}
