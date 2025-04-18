@@ -310,64 +310,84 @@ hr {
   text-align: right;
 }
 
-.item-details-modifiers {
+.item-info-block {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.item-trait-name {
+.item-info-trait-name {
   color: var(--tooltip-foreground-color);
 }
 
-.item-modifier-name {
+.item-info-modifier-name {
   font-weight: 700;
 }
 
-.item-details-modifier-increase {
+.item-info-usage-name, .item-info-sources-name {
+  color: var(--tooltip-foreground-color);
+  font-weight: 700;
+}
+
+.item-info-modifier-increase {
   color: var(--theme-colour-stat-arrow-increase);
   margin-right: 10px;
   font-weight: 700;
   font-size: larger;
 }
 
-.item-details-modifier-decrease {
+.item-info-modifier-decrease {
   color: var(--theme-colour-stat-arrow-decrease);
   margin-right: 10px;
   font-weight: 700;
   font-size: larger;
 }
 
-.item-details-stats {
-  
+.item-info-source-locations {
+  li {
+    position: relative;
+    padding-left: 2em;
+
+    &:after {
+      content: '';
+      height: .4em;
+      width: .4em;
+      background: var(--theme-foreground);
+      display: block;
+      position: absolute;
+      transform: rotate(45deg);
+      top: .5em;
+      left: 1em;
+    }
+  }
 }
 
-.item-details-stat-increase {
+.item-info-stat-increase {
   --stat-color: var(--theme-colour-stat-increase);
 }
 
-.item-details-stat-decrease {
+.item-info-stat-decrease {
   --stat-color: var(--theme-colour-stat-decrease);
 }
 
-.item-details-stat-values-container {
+.item-info-stat-values-container {
   display: flex;
   width: 100%;
   font-weight: 700;
   justify-content: space-between;
 }
 
-.item-details-stat-change-value {
+.item-info-stat-change-value {
   color: var(--stat-color);
   margin-left: 10px;
 }
 
-.item-details-stat-value {
+.item-info-stat-value {
   text-align: right;
   color: var(--stat-color);
 }
 
-.item-details-stat-bar {
+.item-info-stat-bar {
   --progress-bar-base-fill: 0,
   --progress-bar-change-fill: 0,
 

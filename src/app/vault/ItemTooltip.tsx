@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { Detail, Item, Modifier, Stat } from "./Item";
+import { InfoBlock, InfoStat, InfoType, Item } from "./Item";
 import KeywordHighlighter from "../components/KeywordHighlighter";
 import { clsx } from "clsx";
 
@@ -49,17 +49,15 @@ export function handleClick(updateTooltipController: Updater, e: React.MouseEven
       if (element.closest(".vault-grid-slot-used") || element.closest(".item-tooltip")) {
         return;
       }
-      
-      updateTooltipController((t) =>
-        t.locked ? { ...t, locked: false, item: null } : t
-      );
-      
+
+      updateTooltipController((t) => (t.locked ? { ...t, locked: false, item: null } : t));
+
       document.removeEventListener("click", handleDocumentClick);
     };
-  
+
     document.addEventListener("click", handleDocumentClick);
 
-    return { ...createTooltipController(e, item), locked: true }
+    return { ...createTooltipController(e, item), locked: true };
   });
 }
 
@@ -93,7 +91,7 @@ export function ItemTooltip({ controller }: { controller: TooltipController }) {
         </div>
       </div>
       <div className="item-tooltip-content">
-        <ItemDetails details={controller.item.details} />
+        <ItemDetails info={controller.item.info} />
         <div className="item-tooltip-credits">
           <span className="credits-icon"></span>
           <span>Credits</span>
@@ -119,99 +117,106 @@ function DummyDetails() {
   );
 }
 
-function ItemDetails({ details }: { details: Detail[] }) {
-  if (!details || details.length === 0) {
+function ItemDetails({ info }: { info: InfoBlock[] }) {
+  if (!info || info.length === 0) {
     return <DummyDetails />;
   }
 
-  return details.map((detail) => (
+  return info.map((block) => (
     <>
-      <DetailBlock detail={detail} />
+      <div className="item-info-block">
+        {block.map((info, i) => (
+          <div key={i}>
+            <Info info={info} />
+          </div>
+        ))}
+      </div>
       <hr />
     </>
   ));
 }
 
-function DetailBlock({ detail }: { detail: Detail }) {
-  if (detail.type === "modifiers" && detail.modifiers) {
-    return (
-      <div className="item-details-modifiers">
-        {detail.modifiers.map((modifier, i) => (
-          <div key={i} className="item-details-modifier">
-            <ModifierDetail modifier={modifier} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (detail.type === "stats" && detail.stats) {
-    return (
-      <div className="item-details-modifiers">
-        {detail.stats.map((stat, i) => (
-          <div key={i} className="item-details-stat">
-            <StatDetail stat={stat} />
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return <span>{detail.type}</span>;
-}
-
-function ModifierDetail({ modifier }: { modifier: Modifier }) {
-  if (modifier.type === "trait" || modifier.type === "modifier") {
+function Info({ info }: { info: InfoType }) {
+  if (info.type === "trait" || info.type === "modifier") {
     return (
       <>
-        <div className={`item-${modifier.type}-name`}>{modifier.name}</div>
+        <div className={`item-info-${info.type}-name`}>{info.name}</div>
         <div>
-          <KeywordHighlighter text={modifier.description} />
+          <KeywordHighlighter text={info.description} />
         </div>
       </>
     );
   }
 
-  if (modifier.type === "text") {
-    return <KeywordHighlighter text={modifier.description} />;
+  if (info.type === "text") {
+    return <KeywordHighlighter text={info.description} />;
   }
 
-  if (modifier.type === "increase" || modifier.type === "decrease") {
+  if (info.type === "increase" || info.type === "decrease") {
     return (
-      <div>
-        <span className={`item-details-modifier-${modifier.type}`}>{modifier.type === "increase" ? "▲" : "▼"}</span>
-        <KeywordHighlighter text={modifier.description} />
-      </div>
+      <>
+        <span className={`item-details-modifier-${info.type}`}>{info.type === "increase" ? "▲" : "▼"}</span>
+        <KeywordHighlighter text={info.description} />
+      </>
     );
   }
 
-  return <span>!! ERROR !!</span>;
+  if (info.type === "sources") {
+    return (
+      <>
+        <div className={`item-info-sources-name`}>Sources</div>
+        {Object.keys(info.sources).map((source) => (
+          <>
+            <div>{source}</div>
+            {info.sources[source].length > 0 && (
+              <ul className="item-info-source-locations">
+                {info.sources[source].map((location, i) => (
+                  <li key={i}>{location}</li>
+                ))}
+              </ul>
+            )}
+          </>
+        ))}
+      </>
+    );
+  }
+
+  if (info.type === "usage") {
+    return (
+      <>
+        <div className={`item-info-usage-name`}>Usage</div>
+        {info.usage.map((u, i) => (
+          <div key={i}>{u}</div>
+        ))}
+      </>
+    );
+  }
+
+  if (info.type === "stat") {
+    return <StatDetail stat={info} />;
+  }
+
+  return <div>!! ERROR !!</div>;
 }
 
-function StatDetail({ stat }: { stat: Stat }) {
+function StatDetail({ stat }: { stat: InfoStat }) {
   return (
-    <div
-      className={clsx(
-        "item-details-stat",
-        stat.change > 0 && "item-details-stat-increase",
-        stat.change < 0 && "item-details-stat-decrease"
-      )}
-    >
-      <div className="item-details-stat-values-container">
+    <div className={clsx(stat.change > 0 && "item-info-stat-increase", stat.change < 0 && "item-info-stat-decrease")}>
+      <div className="item-info-stat-values-container">
         <div>
-          <span className="item-details-stat-name">{stat.name}</span>
-          <span className="item-details-stat-change-value">
+          <span>{stat.name}</span>
+          <span className="item-info-stat-change-value">
             {stat.change > 0 ? "+" : "-"}
             {Math.abs(stat.change)}
           </span>
         </div>
-        <div className="item-details-stat-value">
+        <div className="item-info-stat-value">
           {stat.base + stat.change}
           <sup>{stat.change > 0 ? "↗" : "↘"}</sup>
         </div>
       </div>
       <div
-        className="item-details-stat-bar"
+        className="item-info-stat-bar"
         style={
           {
             "--progress-bar-base-fill": `${stat.base}%`,
