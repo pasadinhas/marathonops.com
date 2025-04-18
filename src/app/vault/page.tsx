@@ -82,7 +82,7 @@ const SlotGrid = () => {
           onMouseLeave={() => handleMouseLeave(tooltipController, setTooltipController)}
           onClick={(e) => handleClick(setTooltipController, e, placement.item)}
         >
-          <div className="header">${placement.item.value}</div>
+          <div className="vault-grid-slot-header">${placement.item.value}</div>
           Item {placement.item.id}
           {placement.item.quantity > 1 && <div className="quantity">x{placement.item.quantity}</div>}
         </div>
