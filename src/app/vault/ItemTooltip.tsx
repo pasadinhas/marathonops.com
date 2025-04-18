@@ -155,7 +155,7 @@ function Info({ info }: { info: InfoType }) {
   if (info.type === "increase" || info.type === "decrease") {
     return (
       <>
-        <span className={`item-details-modifier-${info.type}`}>{info.type === "increase" ? "▲" : "▼"}</span>
+        <span className={`item-info-modifier-${info.type}`}>{info.type === "increase" ? "▲" : "▼"}</span>
         <KeywordHighlighter text={info.description} />
       </>
     );
